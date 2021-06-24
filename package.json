@@ -1,0 +1,25 @@
+{
+  "name": "Proyecto_Delilah",
+  "version": "1.0.0",
+  "description": "",
+  "main": "conexion.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yeff2611/Proyecto_Delilah_Resto.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yeff2611/Proyecto_Delilah_Resto/issues"
+  },
+  "homepage": "https://github.com/yeff2611/Proyecto_Delilah_Resto#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.6.2"
+  }
+}
