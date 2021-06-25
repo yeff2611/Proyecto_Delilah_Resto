@@ -3,7 +3,7 @@ const app = express();
 const sequelize = require('./conexion.js');
 
 async function consultaDB() {
-    sequelize.query("select * from tbl_estado", {
+    sequelize.query("select * from tbl_tipo_pago", {
         type:sequelize.QueryTypes.SELECT
     }).then(estados =>{
         console.log(estados);

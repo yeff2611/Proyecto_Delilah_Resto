@@ -1,40 +1,16 @@
 create database DB_Delilah_Resto
 
-
 use DB_Delilah_Resto
-
-/*
-create table tbl_Municipio(
-id_Municipio int not null primary key auto_increment,
-Nombre_Municipio varchar(255)
-)
-
-create table tbl_Region(
-id_Region int not null primary key auto_increment,
-Nombre_Region varchar(255),
-id_Municipio int not null,
-foreign key(id_Municipio) references tbl_Municipio(id_Municipio)
-)
-
-create table tbl_Pais(
-id_Pais int not null primary key auto_increment,
-Nombre_Pais varchar(255),
-id_Region int not null,
-foreign key(id_Region) references tbl_Region(id_Region)
-)
-*/
 
 create table tbl_Estado(
 id_Estado int not null primary key auto_increment,
-Descripcion_Estado int not null
+Descripcion_Estado varchar(100) not null
 )
 
 create table tbl_Rol(
 id_Rol int not null primary key auto_increment,
 Nombre_Rol varchar(255) not null,
 Descripcion_Rol varchar(255) not null
-/*id_Estado int not null,
-foreign key(id_Estado) references tbl_Estado(id_Estado)*/
 )
 
 create table tbl_Usuario(
@@ -46,11 +22,8 @@ Apellido varchar(255) not null,
 Email varchar(255),
 Telefono int not null,
 Direccion varchar(255) not null,
-id_Estado int not null,
-/*id_Municipio int not null,*/
 id_Rol int not null,
-foreign key(id_Estado) references tbl_Estado(id_Estado),
-/*foreign key(id_Municipio) references tbl_Municipio(id_Municipio),*/
+/*foreign key(id_Estado) references tbl_Estado(id_Estado),*/
 foreign key(id_Rol) references tbl_Rol(id_Rol)
 )
 
@@ -79,13 +52,33 @@ Costo_Producto int not null
 )
 
 create table tbl_Pedido_Producto(
+id_Pedido_Producto int NOT NULL auto_increment,
 id_Pedido int not null,
 id_Producto int not null,
 Cantidad int not null,
-primary key(id_Pedido, id_Producto),
+primary key(id_Pedido_Producto, id_Pedido, id_Producto),
 foreign key(id_Pedido) references tbl_Pedido(id_Pedido),
 foreign key(id_Producto) references tbl_Producto(id_Producto)
 )
 
 
 
+/*Poblacion de datos*/
+INSERT INTO tbl_estado (Descripcion_Estado) values ('Activo'),
+('Inactivo'),
+('Cancelado'),
+('Nuevo'),
+('Confimado'),
+('Preparando'),
+('Enviando'),
+('Entregado')
+
+select * from tbl_estado te 
+
+
+insert into tbl_tipo_pago (Nombre_Tipo_Pago, Descripcion_Tipo_Pago) values ('Efectivo', 'Pago en efectivo'),
+('Tarjeta de Credito', 'Pago con todas las tarjetas de crédito'),
+('Tarjeta Debido', 'Pago con todas las tarjetas debito'),
+('Paypal', 'Pago electronico por medio de paypal')
+
+select * from tbl_tipo_pago ttp 
