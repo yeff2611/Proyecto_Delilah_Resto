@@ -2,63 +2,63 @@ create database DB_Delilah_Resto
 
 use DB_Delilah_Resto
 
-create table tbl_Estado(
-id_Estado int not null primary key auto_increment,
-Descripcion_Estado varchar(100) not null
+create table tbl_estado(
+id_estado int not null primary key auto_increment,
+descripcion_estado varchar(100) not null
 )
 
-create table tbl_Rol(
-id_Rol int not null primary key auto_increment,
-Nombre_Rol varchar(255) not null,
-Descripcion_Rol varchar(255) not null
+create table tbl_rol(
+id_rol int not null primary key auto_increment,
+nombre_rol varchar(255) not null,
+descripcion_rol varchar(255) not null
 )
 
-create table tbl_Usuario(
-id_Usuario int not null primary key auto_increment,
-Nombre_Usuario varchar(50) not null,
-Contrasenia varchar(20) not null,
-Nombre varchar(255) not null,
-Apellido varchar(255) not null,
-Email varchar(255),
-Telefono int not null,
-Direccion varchar(255) not null,
-id_Rol int not null,
+create table tbl_usuario(
+id_usuario int not null primary key auto_increment,
+nombre_usuario varchar(50) not null,
+contrasenia varchar(20) not null,
+nombre varchar(255) not null,
+apellido varchar(255) not null,
+email varchar(255),
+telefono int not null,
+direccion varchar(255) not null,
+id_rol int not null,
 /*foreign key(id_Estado) references tbl_Estado(id_Estado),*/
-foreign key(id_Rol) references tbl_Rol(id_Rol)
+foreign key(id_rol) references tbl_rol(id_rol)
 )
 
-create table tbl_Tipo_Pago(
-id_Tipo_Pago int not null primary key auto_increment,
-Nombre_Tipo_Pago varchar(255) not null,
-Descripcion_Tipo_Pago varchar(255) not null
+create table tbl_tipo_pago(
+id_tipo_pago int not null primary key auto_increment,
+nombre_tipo_pago varchar(255) not null,
+descripcion_tipo_pago varchar(255) not null
 )
 
-create table tbl_Pedido(
-id_Pedido int not null primary key auto_increment,
-Descripcion_Pedido varchar(255) not null,
-id_Estado int not null,
-id_Usuario int not null,
-id_Tipo_Pago int not null,
-foreign key(id_Estado) references tbl_Estado(id_Estado),
-foreign key(id_Usuario) references tbl_Usuario(id_Usuario),
-foreign key(id_Tipo_Pago) references tbl_Tipo_Pago(id_Tipo_Pago)
+create table tbl_pedido(
+id_pedido int not null primary key auto_increment,
+descripcion_pedido varchar(255) not null,
+id_estado int not null,
+id_usuario int not null,
+id_tipo_pago int not null,
+foreign key(id_estado) references tbl_estado(id_estado),
+foreign key(id_usuario) references tbl_usuario(id_usuario),
+foreign key(id_tipo_pago) references tbl_tipo_pago(id_tipo_pago)
 )
 
-create table tbl_Producto(
-id_Producto int not null primary key auto_increment,
-Nombre_Producto varchar(255) not null,
-Descripcion_Producto varchar(255),
-Costo_Producto int not null
+create table tbl_producto(
+id_producto int not null primary key auto_increment,
+nombre_producto varchar(255) not null,
+descripcion_producto varchar(255),
+costo_producto int not null
 )
 
-create table tbl_Pedido_Producto(
-id_Pedido_Producto int NOT NULL auto_increment,
-id_Pedido int not null,
-id_Producto int not null,
-Cantidad int not null,
-primary key(id_Pedido_Producto, id_Pedido, id_Producto),
-foreign key(id_Pedido) references tbl_Pedido(id_Pedido),
-foreign key(id_Producto) references tbl_Producto(id_Producto)
+create table tbl_pedido_producto(
+id_pedido_producto int NOT NULL auto_increment,
+id_pedido int not null,
+id_producto int not null,
+cantidad int not null,
+primary key(id_pedido_producto, id_pedido, id_producto),
+foreign key(id_pedido) references tbl_pedido(id_pedido),
+foreign key(id_producto) references tbl_producto(id_producto)
 )
 
 
@@ -77,8 +77,27 @@ select * from tbl_estado te
 
 
 insert into tbl_tipo_pago (Nombre_Tipo_Pago, Descripcion_Tipo_Pago) values ('Efectivo', 'Pago en efectivo'),
-('Tarjeta de Credito', 'Pago con todas las tarjetas de crédito'),
+('Tarjeta de Credito', 'Pago con todas las tarjetas de credito'),
 ('Tarjeta Debido', 'Pago con todas las tarjetas debito'),
 ('Paypal', 'Pago electronico por medio de paypal')
 
 select * from tbl_tipo_pago ttp 
+
+insert into tbl_rol (Nombre_Rol, Descripcion_Rol) values('Administrador', 'Este rol permite acceso total a todas las funcionalidades'),
+('Viewer','Este rol solo permite consultas')
+
+select * from tbl_rol tr 
+
+insert into tbl_producto (nombre_producto, descripcion_producto, costo_producto) values('Hamburguesa', 'Hamburguesa sencilla', 15000),
+('Pizza peper','Pizza doble queso y peperoni', 12000),
+('Quesadilla mex','Quesadilla mexicana', 14000),
+('Ceviche Camaron','Coctel ceviche de camaron', 22000)
+
+select * from tbl_producto tp 
+
+insert into tbl_usuario (nombre_usuario, contrasenia, nombre, apellido, email, telefono, direccion, id_rol) 
+values('Armando123','123456','Armando','Caceres','arman@correo.com',5556666,'Cra 1 #43 - 55', 1),
+('Carola2525','321','Carola','Marin','Carola@correo.com',4457766,'Cra 8 #43 - 72', 2),
+('Ander1420','98765','Anderson','Restrepo','andres@correo.com',3332528,'Cra 15 #88 - 33', 2)
+
+select * from tbl_usuario tu 
