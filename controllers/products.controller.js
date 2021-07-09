@@ -1,11 +1,8 @@
 const sequelize = require('../conexion');
 
 const createProduct = async (req, res) =>{
-
     const {nombre_producto, descripcion_producto, costo_producto} = req.body;
-
     let arrayInsertProduct = [`${nombre_producto}`, `${descripcion_producto}`, `${costo_producto}`];
-
     try {
         const queryResult = await sequelize.query('INSERT INTO tbl_producto (nombre_producto, descripcion_producto, costo_producto) VALUES(?, ?, ?)',        
         {replacements: arrayInsertProduct, type: sequelize.QueryTypes.INSERT})
@@ -52,7 +49,20 @@ const updateProduct = async(req, res) => {
     }
 }
 
+const deleteProduct = async(req, res) =>{
+    try {
+        const queryResult = await sequelize.query(`DELETE FROM tbl_producto WHERE id_producto = ${req.params.id}`, {type: sequelize.QueryTypes.DELETE});
+        res.status(204).json({
+            message: 'Se ha eliminado el producto',
+            queryResult
+        })
+    } catch (error) {
+        console.log(`Error al eliminar el producto ${error}`);
+    }
+}
+
 exports.createProduct = createProduct;
 exports.getProducts = getProducts;
 exports.getProductById = getProductById;
 exports.updateProduct = updateProduct;
+exports.deleteProduct = deleteProduct;
