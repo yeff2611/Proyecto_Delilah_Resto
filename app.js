@@ -7,10 +7,12 @@ const jwt = require("jsonwebtoken");
 
 // Routes
 const productRoute = require('./routers/products.routes');
+const userRoute = require('./routers/user.routes');
 
 app.use(express.json());
 
-app.use('/api/product', productRoute)
+app.use('/api/product', productRoute);
+app.use('/api/user', userRoute);
 
 
 app.listen(PORT, function(){
@@ -18,4 +20,3 @@ app.listen(PORT, function(){
 });
 
 exports.app = app;
-exports.jwt = jwt;

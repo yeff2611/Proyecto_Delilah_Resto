@@ -13,19 +13,21 @@ nombre_rol varchar(255) not null,
 descripcion_rol varchar(255) not null
 )
 
+
 create table tbl_usuario(
 id_usuario int not null primary key auto_increment,
 nombre_usuario varchar(50) not null,
 contrasenia varchar(20) not null,
 nombre varchar(255) not null,
 apellido varchar(255) not null,
-email varchar(255),
+email varchar(255) unique,
 telefono int not null,
 direccion varchar(255) not null,
-id_rol int not null,
+id_rol int not null default 2,
 /*foreign key(id_Estado) references tbl_Estado(id_Estado),*/
 foreign key(id_rol) references tbl_rol(id_rol)
 )
+
 
 create table tbl_tipo_pago(
 id_tipo_pago int not null primary key auto_increment,
@@ -33,9 +35,12 @@ nombre_tipo_pago varchar(255) not null,
 descripcion_tipo_pago varchar(255) not null
 )
 
+select * from tbl_pedido tp 
+
 create table tbl_pedido(
 id_pedido int not null primary key auto_increment,
 descripcion_pedido varchar(255) not null,
+fecha_pedido datetime default CURRENT_TIMESTAMP not null,
 id_estado int not null,
 id_usuario int not null,
 id_tipo_pago int not null,
@@ -93,11 +98,11 @@ insert into tbl_producto (nombre_producto, descripcion_producto, costo_producto)
 ('Quesadilla mex','Quesadilla mexicana', 14000),
 ('Ceviche Camaron','Coctel ceviche de camaron', 22000)
 
-select * from tbl_producto tp 
+select * from tbl_producto where id_producto =1
 
-insert into tbl_usuario (nombre_usuario, contrasenia, nombre, apellido, email, telefono, direccion, id_rol) 
-values('Armando123','123456','Armando','Caceres','arman@correo.com',5556666,'Cra 1 #43 - 55', 1),
-('Carola2525','321','Carola','Marin','Carola@correo.com',4457766,'Cra 8 #43 - 72', 2),
-('Ander1420','98765','Anderson','Restrepo','andres@correo.com',3332528,'Cra 15 #88 - 33', 2)
+insert into tbl_usuario (nombre_usuario, contrasenia, nombre, apellido, email, telefono, direccion) 
+values('yef125','253535','Yeff','Vargas','yvargas@correo.com',56565,'Cra 1 #43 - 55')
+/*('Carola2525','321','Carola','Marin','Carola@correo.com',4457766,'Cra 8 #43 - 72', 2),
+('Ander1420','98765','Anderson','Restrepo','andres@correo.com',3332528,'Cra 15 #88 - 33', 2)*/
 
 select * from tbl_usuario tu 

@@ -1,6 +1,6 @@
 const sequelize = require('../conexion');
 
-const createProduct = async (req, res) =>{
+const create = async (req, res) =>{
     const {nombre_producto, descripcion_producto, costo_producto} = req.body;
     let arrayInsertProduct = [`${nombre_producto}`, `${descripcion_producto}`, `${costo_producto}`];
     try {
@@ -13,7 +13,7 @@ const createProduct = async (req, res) =>{
     }
 }
 
-const getProducts = async(req, res) =>{
+const getAll = async(req, res) =>{
     try {
         const queryResult = await sequelize.query(`SELECT * FROM tbl_producto`,
         {type: sequelize.QueryTypes.SELECT})
@@ -25,7 +25,7 @@ const getProducts = async(req, res) =>{
     }
 }
 
-const getProductById = async(req, res) =>{
+const getById = async(req, res) =>{
     try {
         const queryResult = await sequelize.query(`SELECT * FROM tbl_producto where id_producto = ${req.params.id}`,
         {type: sequelize.QueryTypes.SELECT})    
@@ -36,7 +36,7 @@ const getProductById = async(req, res) =>{
     }
 }
 
-const updateProduct = async(req, res) => {
+const updateById = async(req, res) => {
     const {nombre_producto, descripcion_producto,costo_producto} = req.body;
     try {
         const queryResult = await sequelize.query(`UPDATE tbl_producto SET nombre_producto = "${nombre_producto}", descripcion_producto = "${descripcion_producto}", costo_producto = "${costo_producto}" WHERE id_producto = ${req.params.id}`, {type: sequelize.QueryTypes.UPDATE})
@@ -49,7 +49,7 @@ const updateProduct = async(req, res) => {
     }
 }
 
-const deleteProduct = async(req, res) =>{
+const deleteById = async(req, res) =>{
     try {
         const queryResult = await sequelize.query(`DELETE FROM tbl_producto WHERE id_producto = ${req.params.id}`, {type: sequelize.QueryTypes.DELETE});
         res.status(204).json({
@@ -61,8 +61,12 @@ const deleteProduct = async(req, res) =>{
     }
 }
 
-exports.createProduct = createProduct;
-exports.getProducts = getProducts;
-exports.getProductById = getProductById;
-exports.updateProduct = updateProduct;
-exports.deleteProduct = deleteProduct;
+// exports.create = create;
+// exports.getAll = getAll;
+// exports.getById = getById;
+// exports.updateById = updateById;
+// exports.deleteById = deleteById;
+
+module.exports = {
+    create, getAll, getById, updateById, deleteById
+}
