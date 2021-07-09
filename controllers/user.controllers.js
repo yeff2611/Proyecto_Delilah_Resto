@@ -40,7 +40,7 @@ const login = async(req, res) => {
                 SECRET,
                 {expiresIn: EXPIRES}
             );
-            return res.status(201).json({msg: "Bienvenido!", token});         
+            return res.status(201).json({msg: "Bienvenido! " + queryResult.nombre, token});         
         }
         return res.status(404).json({msg:"Validar usuario y contraseña"});
     } catch (error) {
