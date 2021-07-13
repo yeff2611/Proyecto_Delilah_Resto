@@ -5,6 +5,32 @@ const SECRET = "1234"; //Usar dotenv
 const EXPIRES = "1h"; //dotenv
 
 
+const getAll = async(req, res) =>{
+    try {
+        const queryResult = await sequelize.query(`SELECT nombre_usuario, nombre, apellido, email, telefono, direccion FROM tbl_usuario`, {
+            type: sequelize.QueryTypes.SELECT
+        });
+        console.log(queryResult);
+        res.status(200).json({queryResult});
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({msg:"Ha ocurrido un error"});
+    }
+}
+
+const getById = async(req, res) =>{
+    try {
+        const queryResult = await sequelize.query(`SELECT nombre_usuario, nombre, apellido, email, telefono, direccion FROM tbl_usuario WHERE id_usuario = ${req.params.id}`, {
+            type: sequelize.QueryTypes.SELECT
+        });
+        console.log(queryResult);
+        res.status(200).json({queryResult});
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({msg:"Ha ocurrido un error"});
+    }
+}
+
 const register = async(req, res) =>{
     const {nombre_usuario, contrasenia, nombre, apellido, email, telefono, direccion} = req.body;
     let arrayRegister = [`${nombre_usuario}`, `${contrasenia}`, `${nombre}`, `${apellido}`, `${email}`, `${telefono}`, `${direccion}`]
@@ -50,5 +76,5 @@ const login = async(req, res) => {
 }
 
 module.exports = {
-    register, login
+    register, login, getById, getAll
 }

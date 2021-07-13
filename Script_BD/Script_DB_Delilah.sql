@@ -41,7 +41,7 @@ create table tbl_pedido(
 id_pedido int not null primary key auto_increment,
 descripcion_pedido varchar(255) not null,
 fecha_pedido datetime default CURRENT_TIMESTAMP not null,
-id_estado int not null,
+id_estado int not null default 4,
 id_usuario int not null,
 id_tipo_pago int not null,
 foreign key(id_estado) references tbl_estado(id_estado),
@@ -98,7 +98,7 @@ insert into tbl_producto (nombre_producto, descripcion_producto, costo_producto)
 ('Quesadilla mex','Quesadilla mexicana', 14000),
 ('Ceviche Camaron','Coctel ceviche de camaron', 22000)
 
-select * from tbl_producto where id_producto =1
+select * from tbl_producto
 
 insert into tbl_usuario (nombre_usuario, contrasenia, nombre, apellido, email, telefono, direccion) 
 values('yef125','253535','Yeff','Vargas','yvargas@correo.com',56565,'Cra 1 #43 - 55')
@@ -106,3 +106,24 @@ values('yef125','253535','Yeff','Vargas','yvargas@correo.com',56565,'Cra 1 #43 -
 ('Ander1420','98765','Anderson','Restrepo','andres@correo.com',3332528,'Cra 15 #88 - 33', 2)*/
 
 select * from tbl_usuario tu 
+
+
+insert into tbl_pedido (descripcion_pedido, id_usuario, id_tipo_pago) values('Pedido para la mesa 4, hamburguesa sin cebolla', 2, 1)
+
+select * from tbl_pedido tp 
+
+insert into tbl_pedido_producto (id_pedido, id_producto, cantidad) values(1,1,1),
+(1,2,1),
+(1,3,2)
+
+select * from tbl_pedido_producto tpp 
+
+select ped.id_pedido, ped.descripcion_pedido, ped.id_estado as 'Estado Pedido', 
+ped.id_tipo_pago, prod.nombre_producto, prod.descripcion_producto, prod.costo_producto, ped_prod.cantidad, 
+(prod.costo_producto*ped_prod.cantidad) as Precio_Total,usu.nombre_usuario, usu.email, usu.telefono, usu.direccion, ped.fecha_pedido 
+from tbl_pedido ped left join tbl_pedido_producto ped_prod using(id_pedido) 
+left join tbl_producto prod using(id_producto) left join tbl_usuario usu using(id_usuario)
+
+
+
+
