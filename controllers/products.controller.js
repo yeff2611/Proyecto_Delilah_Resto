@@ -53,7 +53,7 @@ const updateById = async(req, res) => {
 const deleteById = async(req, res) =>{
     try {
         const queryResult = await sequelize.query(`DELETE FROM tbl_producto WHERE id_producto = ${req.params.id}`, {type: sequelize.QueryTypes.DELETE});
-        res.status(204).json({
+        res.status(200).json({
             message: 'Se ha eliminado el producto',
             queryResult
         })

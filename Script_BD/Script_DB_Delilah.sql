@@ -62,9 +62,15 @@ id_pedido int not null,
 id_producto int not null,
 cantidad int not null,
 primary key(id_pedido_producto, id_pedido, id_producto),
-foreign key(id_pedido) references tbl_pedido(id_pedido),
+foreign key(id_pedido) references tbl_pedido(id_pedido) on delete cascade,
 foreign key(id_producto) references tbl_producto(id_producto)
 )
+
+alter table tbl_pedido_producto drop foreign key tbl_pedido_producto_ibfk_1
+
+alter table tbl_pedido_producto add foreign key (id_pedido) references tbl_pedido(id_pedido) on delete cascade
+
+alter table tbl_pedido_producto change foreign key (id_pedido) references tbl_pedido(id_pedido) on delete cascade
 
 
 
@@ -119,16 +125,29 @@ insert into tbl_pedido_producto (id_pedido, id_producto, cantidad) values(1,1,1)
 
 select * from tbl_pedido_producto tpp 
 
-select ped.id_pedido, ped.descripcion_pedido, est.descripcion_estado as 'Estado Pedido', 
-tpago.nombre_tipo_pago, prod.nombre_producto, prod.descripcion_producto, prod.costo_producto, ped_prod.cantidad, 
+select ped.id_pedido, ped.descripcion_pedido, est.id_estado, est.descripcion_estado as 'Estado Pedido', tpago.id_tipo_pago,
+tpago.nombre_tipo_pago, prod.id_producto, prod.nombre_producto, prod.descripcion_producto, prod.costo_producto, ped_prod.cantidad, 
 (prod.costo_producto*ped_prod.cantidad) as Precio_Total,usu.nombre_usuario, usu.email, usu.telefono, usu.direccion, ped.fecha_pedido 
 from tbl_pedido ped left join tbl_pedido_producto ped_prod using(id_pedido) 
 left join tbl_producto prod using(id_producto) left join tbl_usuario usu using(id_usuario)
 left join tbl_estado est using(id_estado) left join tbl_tipo_pago tpago using(id_tipo_pago)
+where ped.id_pedido = 1
 order by ped.id_pedido
 
 
 
-update tbl_pedido ped left join tbl_pedido_producto ped_prod using(id_pedido) 
-left join tbl_producto prod using(id_producto) left join tbl_usuario usu using(id_usuario)
-set 
+
+
+select * from tbl_pedido tp 
+
+delete from tbl_pedido where id_pedido = 1
+
+select * from tbl_estado te 
+
+update tbl_pedido set id_estado = 1 where id_pedido = 1
+
+
+descripcion_pedido,id_estado,id_usuario,id_tipo_pago
+
+
+
