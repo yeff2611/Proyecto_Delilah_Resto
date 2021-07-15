@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
-const path = 'mysql://root:sa@localhost:3306/db_delilah_resto';
+require('dotenv').config();
+const path = `mysql://root:${process.env.PASS_DB}@${process.env.USER}:3306/db_delilah_resto`;
 const sequelize = new Sequelize(path, 
     {
         dialect: 'mysql',

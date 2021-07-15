@@ -22,6 +22,7 @@ const getAll = async(req, res) =>{
         res.status(200).json({queryResult})
     } catch (error) {
         console.log(`Error al consultar los productos ${error}`);
+        res.status(400).json({msg:"Ha ocurrido un error"})
     }
 }
 

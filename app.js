@@ -3,7 +3,6 @@ const app = express();
 const sequelize = require('./conexion.js');
 const PORT = 3000;
 
-// const jwt = require("jsonwebtoken");
 
 // Routes
 const productRoute = require('./routers/products.routes');

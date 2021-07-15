@@ -1,5 +1,6 @@
-const SECRET = "1234"; //Usar dotenv
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
+const secret = process.env.SECRET; //Usar dotenv
 
 const validarTokenUserAdmin =  (req, res, next) => {
     const jwtToken = req.headers["authorization"];
@@ -8,8 +9,11 @@ const validarTokenUserAdmin =  (req, res, next) => {
     }
     const jwtClient = jwtToken.split(" ")[1];
      // autorizacion mitoken
-    jwt.verify(jwtClient,SECRET , (error, decoded) => {
+     console.log(secret);
+    jwt.verify(jwtClient, secret, (error, decoded) => {
         if(error) {
+            console.log(secret);
+            console.log(error);
             return res.status(401).json({msg: "token invalido"})
         }
         console.log(decoded)
@@ -26,8 +30,9 @@ validarTokenUserViewer = (req, res, next) => {
         return res.status(401).json({msg: "usuario no válido"});        
     }
     const jwtClient = jwtToken.split(" ")[1];
-    jwt.verify(jwtClient, SECRET, (error, decoded) => {
+    jwt.verify(jwtClient, secret, (error, decoded) => {
         if (error) {
+            console.log(error);
             return res.status(401).json({msg: "Token invalido"})
         }
         console.log(decoded);

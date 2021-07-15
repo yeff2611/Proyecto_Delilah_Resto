@@ -1,7 +1,8 @@
 const { query } = require('express');
 const sequelize = require('../conexion');
+require('dotenv').config();
 const jwt = require("jsonwebtoken");
-const SECRET = "1234"; //Usar dotenv
+const SECRET = process.env.SECRET; //Usar dotenv
 const EXPIRES = "1h"; //dotenv
 
 
@@ -33,6 +34,7 @@ const getById = async(req, res) =>{
 
 const register = async(req, res) =>{
     const {nombre_usuario, contrasenia, nombre, apellido, email, telefono, direccion} = req.body;
+    
     let arrayRegister = [`${nombre_usuario}`, `${contrasenia}`, `${nombre}`, `${apellido}`, `${email}`, `${telefono}`, `${direccion}`]
 
     try {
