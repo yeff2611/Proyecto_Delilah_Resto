@@ -1,30 +1,38 @@
 const sequelize = require('../conexion');
 
-
 const create = async (req, res) => {
     const {descripcion_pedido, id_usuario, id_tipo_pago, pedido_producto} = req.body;
 
     let arrayPedido = [`${descripcion_pedido}`, `${id_usuario}`, `${id_tipo_pago}`];
-    console.log(pedido_producto);
 
     try {
+        /*inserta la orden*/
         const queryResult = await sequelize.query('INSERT INTO tbl_pedido(descripcion_pedido, id_usuario, id_tipo_pago) VALUES (?,?,?)',
         {
             replacements: arrayPedido,
             type: sequelize.QueryTypes.INSERT
         });
+        //Captura el id del pedido creado
         let idPedido = queryResult[0];
+        let stringQuery;
+        let stringNewQuery = "";
 
-        /*Inserta productos a la orden*/
-        async function indexArray(element, index, array){
-            const queryInsertOrderProduct = await sequelize.query(`INSERT INTO tbl_pedido_producto(id_pedido, id_producto, cantidad) VALUES (${idPedido},${pedido_producto[index].id_producto},${pedido_producto[index].cantidad})`, 
-            {
-                type: sequelize.QueryTypes.INSERT
-            })
-            console.log(queryInsertOrderProduct);
+        /*Arma string de productos para la orden*/
+        async function insertOrderProduct(element, index, array){
+            stringQuery = `(${idPedido},${array[index].id_producto},${array[index].cantidad}),`
+            stringNewQuery += stringQuery;
         }
-        pedido_producto.forEach(indexArray);
-        console.log(queryResult);        
+        
+        pedido_producto.forEach(insertOrderProduct);
+        QueryString = stringNewQuery.substring(0, stringNewQuery.length-1)
+
+        /*Query Inserccion Ordenes productos*/
+        const queryInsertOrderProduct = await sequelize.query("INSERT INTO tbl_pedido_producto(id_pedido, id_producto, cantidad) VALUES " + QueryString,
+        {
+            type: sequelize.QueryTypes.INSERT
+        });
+        
+        console.log(queryInsertOrderProduct);
         res.status(200).json({msg: "Registro exitoso!"})
     } catch (error) {
         console.log(`Error al insertar: ${error}`);
@@ -43,7 +51,6 @@ const getAll = async (req, res) => {
         console.log(`Error al consultar pedidos: ${error}`);
         res.status(400).json({msg: "ha ocurrido un error"});
     }
-
 }
 
 module.exports = {
