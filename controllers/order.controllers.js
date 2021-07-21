@@ -63,8 +63,7 @@ const deleteByID = async (req, res) => {
             type: sequelize.QueryTypes.DELETE
         });
         res.status(200).json({
-            msg: "El pedido se eliminó correctamente",
-            queryResult
+            msg: "El pedido se eliminó correctamente",            
         })
     } catch (error) {
         console.log(error);

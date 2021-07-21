@@ -131,7 +131,7 @@ tpago.nombre_tipo_pago, prod.id_producto, prod.nombre_producto, prod.descripcion
 from tbl_pedido ped left join tbl_pedido_producto ped_prod using(id_pedido) 
 left join tbl_producto prod using(id_producto) left join tbl_usuario usu using(id_usuario)
 left join tbl_estado est using(id_estado) left join tbl_tipo_pago tpago using(id_tipo_pago)
-where ped.id_pedido = 1
+-- where ped.id_pedido = 1
 order by ped.id_pedido
 
 

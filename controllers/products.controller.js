@@ -62,12 +62,6 @@ const deleteById = async(req, res) =>{
     }
 }
 
-// exports.create = create;
-// exports.getAll = getAll;
-// exports.getById = getById;
-// exports.updateById = updateById;
-// exports.deleteById = deleteById;
-
 module.exports = {
     create, getAll, getById, updateById, deleteById
 }
