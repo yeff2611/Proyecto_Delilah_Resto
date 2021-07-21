@@ -1,0 +1,532 @@
+swagger: "2.0"
+info:
+  description: "API para gestionar pedidos de restaurantes en linea"
+  version: "1.0.0"
+  title: "API Delilah resto"
+  termsOfService: "http://ejemplo/tyc/"
+  contact:
+    email: "vyefferson@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://localhost:3000/api"
+host: "localhost:3000"
+basePath: "/api"
+tags:
+- name: "User"
+  description: "Este endpoint maneja la información relacionada con los clientes"
+- name: "Product"
+  description: "Este endpoint manela la información relacionada con los productos"
+- name: "Order"
+  description: "Este endpoint manela la información relacionada con los pedidos"
+paths:
+
+  /user/register:
+    post:
+      tags:
+        - User
+      summary: Registro
+      description: Registro de un nuevo usuario
+      parameters:
+      - in: "body"
+        name: "body"
+        description: Objeto para cargar un nuevo usuario
+        required: true
+        schema:
+          $ref: "#/components/schemas/usuarios"
+      responses:
+        200:
+          description: Registro Exitoso!
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorize'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+          
+  /user/login:
+    post:
+      tags:
+        - User
+      summary: Login
+      description: Inicio de sesión en la app
+      parameters:
+      - in: "body"
+        name: "body"
+        description: objeto para iniciar sesión
+        required: true
+        schema:
+          $ref: "#/components/schemas/login"
+      responses:
+        200:
+          description: Registro Exitoso!
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorize'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /user:
+    get:
+      tags:
+        - User
+      summary: Listado usuarios
+      description: Lista todos los usuarios registrados
+      parameters:
+      - $ref: "#/components/parameters/token"
+      responses:
+        200:
+          description: Ok
+          schema:
+            type: "array"
+            items:
+              $ref: '#/components/schemas/usuarios'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorize'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+          
+  /user/{id}:
+    get:
+      tags:
+        - User
+      summary: lista usuario por id
+      description: Lista información del usuario por id
+      parameters:
+      - $ref: '#/components/parameters/token'
+      - name: id
+        type: integer
+        in: path
+        description: Identificador del cliente
+        required: true
+      responses:
+        200:
+          description: Ok
+          schema:
+            type: "array"
+            items:
+              $ref: '#/components/schemas/usuarios'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorize'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+          
+  
+  
+  /product:
+    get:
+      tags:
+        - Product
+      summary: Listado de todos los productos
+      description: Lista todos los productos registrados
+      responses:
+        200:
+          description: Ok
+          schema:
+            type: "array"
+            items:
+              $ref: '#/components/schemas/productos'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorize'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+          
+  /product/{id}:
+    get:
+      tags:
+        - Product
+      summary: lista producto por id
+      description: Lista información del producto por id
+      parameters:
+      - name: id
+        type: integer
+        in: path
+        description: Identificador del producto
+        required: true
+      responses:
+        200:
+          description: Ok
+          schema:
+            type: "array"
+            items:
+              $ref: '#/components/schemas/productos'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorize'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+  
+  
+  /product/editar/{id}:
+    put:
+      tags:
+        - Product
+      summary: Edita productos
+      description: Edita producto por id
+      parameters:
+      - $ref: '#/components/parameters/token'
+      - name: id
+        type: integer
+        in: path
+        description: Identificador del producto
+        required: true
+      - in: "body"
+        name: "body"
+        description: objeto para editar el producto
+        required: true
+        schema:
+          $ref: "#/components/schemas/actualizaCreaProducto"
+      responses:
+        200:
+          description: El producto se actualizó correctamente
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorize'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+          
+  /product/eliminar/{id}:
+    delete:
+      tags:
+        - Product
+      summary: Elimina productos
+      description: Elimina producto por id
+      parameters:
+      - $ref: '#/components/parameters/token'
+      - name: id
+        type: integer
+        in: path
+        description: Identificador del producto
+        required: true
+      responses:
+        200:
+          description: Se ha eliminado el producto
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorize'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /product/registro:
+    post:
+      tags:
+        - Product
+      summary: Registro
+      description: Registro de un nuevo producto
+      parameters:
+      - $ref: '#/components/parameters/token'
+      - in: "body"
+        name: "body"
+        description: Objeto para crear un nuevo producto
+        required: true
+        schema:
+          $ref: "#/components/schemas/actualizaCreaProducto"
+      responses:
+        200:
+          description: Registro Exitoso!
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorize'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /order:
+    get:
+      tags:
+        - Order
+      summary: Listado de todos los pedidos
+      description: Lista todos los pedidos registrados
+      responses:
+        200:
+          description: Ok
+          schema:
+            type: "array"
+            items:
+              $ref: '#/components/schemas/pedidos'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorize'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+  /order/registro:
+    post:
+      tags:
+        - Order
+      summary: Registro de pedidos
+      description: Registro de un nuevo pedido
+      parameters:
+      - in: "body"
+        name: "body"
+        description: Objeto para crear un nuevo pedido
+        required: true
+        schema:
+          $ref: "#/components/schemas/creaPedido"
+      responses:
+        200:
+          description: Registro Exitoso!
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorize'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+          
+  /order/editar/{id}:
+      put:
+        tags:
+          - Order
+        summary: Edita pedidos
+        description: Edita pedidos por id
+        parameters:
+        - $ref: '#/components/parameters/token'
+        - name: id
+          type: integer
+          in: path
+          description: Identificador del pedido
+          required: true
+        - in: "body"
+          name: "body"
+          description: objeto para editar el pedido
+          required: true
+          schema:
+            $ref: "#/components/schemas/actualizaPedido"
+        responses:
+          200:
+            description: El pedido se actualizó correctamente
+          400:
+            $ref: '#/components/responses/BadRequest'
+          401:
+            $ref: '#/components/responses/Unauthorize'
+          404:
+            $ref: '#/components/responses/NotFound'
+          500:
+            $ref: '#/components/responses/ServerError'
+
+  /order/eliminar/{id}:
+    delete:
+      tags:
+        - Order
+      summary: Elimina pedidos
+      description: Elimina pedidos por id
+      parameters:
+      - $ref: '#/components/parameters/token'
+      - name: id
+        type: integer
+        in: path
+        description: Identificador del producto
+        required: true
+      responses:
+        200:
+          description: El pedido se eliminó correctamente
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorize'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ServerError'
+
+components:
+
+  responses:
+    Unauthorize:
+      description: No hay autorización para realizar el servicio
+    NotFound:
+      description: (NotFound) no se encontró información
+    BadRequest:
+      description: (BadRequest) los datos enviados son incorrectos o hay datos obligatorios no diligenciados
+    ServerError:
+      description: Error en el servidor
+  
+  parameters:
+    token:
+      in: "header"
+      name: "header"
+      description: token de autorización
+      required: true
+
+  schemas:
+
+    usuarios:
+      type: "object"
+      properties:
+          nombre_usuario:
+            type: string
+            description: usuario con el que se va a hacer login el usuario
+          nombre:
+            type: string
+            description: nombres de los usuarios
+          apellido:
+            type: string
+            description: apellidos de los usuarios
+          email:
+            type: string
+            description: correo electronico del usuario
+          telefono:
+            type: string
+            description: número de teléfonot del usuario
+          direccion:
+            type: string
+            description: dirección de residencia del cliente
+          id_rol:
+            type: integer
+            description: tipo de usuario
+    login:
+      type: "object"
+      properties:
+        email:
+          type: string
+          description: email de registro
+        contrasenia:
+          type: string
+          description: contraseña de registro, minimo 6 máximo 15 caracteres
+
+    productos:
+      type: "object"
+      properties:
+        id_producto:
+          type: integer
+          description: Identificador del producto
+        nombre_producto:
+          type: string
+          description: nombre del producto
+        descripcion_producto:
+          type: string
+          description: descripcion del producto
+        costo_producto:
+          type: integer
+          description: costo del producto
+
+    actualizaCreaProducto:
+      type: "object"
+      properties:
+        nombre_producto:
+          type: string
+          description: nombre del producto
+        descripcion_producto:
+          type: string
+          description: descripcion del producto
+        costo_producto:
+          type: integer
+          description: costo del producto
+          
+    creaPedido:
+      type: "object"
+      properties:
+        id_usuario:
+          type: integer
+          description: Identificador del usuario que realiza el pedido
+        id_tipo_pago:
+          type: integer
+          description: Identificador del tipo de pago
+        pedido_producto:
+          type: array
+          description: array con los productos del pedido
+          items:
+            type: object
+            properties:
+              id_producto:
+                type: integer
+                description: Identificador del producto
+              Cantidad:
+                type: integer
+                description: Cantidad de productos
+    
+    actualizaPedido:
+      type: "object"
+      properties:
+        descripcion_pedido:
+          type: string
+          description: Detalle del pedido
+        id_estado:
+          type: integer
+          description: Identificador del estado
+        id_tipo_pago:
+          type: integer
+          description: Identificador del tipo de pago
+    
+    pedidos:
+      type: "object"
+      properties:
+        id_pedido:
+          type: integer
+          description: Identificador de la orden
+        descripcion_pedido:
+          type: string
+          description: descripción del pedido
+        Estado_Pedido:
+          type: string
+          description: estado del pedido
+        nombre_tipo_pago:
+          type: string
+          description: tipo de pago
+        id_producto:
+          type: integer
+          description: Identificador del producto
+        nombre_producto:
+          type: string
+          description: nombre del producto
+        descripcion_producto:
+          type: string
+          description: descripción del producto
+        costo_producto:
+          type: integer
+          description: costo del producto
+        cantidad:
+          type: integer
+          description: cantidad de productos
+        Precio_Total:
+          type: integer
+          description: precio total del pedido
+        nombre_usuario:
+          type: string
+          description: Nombre de usuario que solicita el pedido
+        email:
+          type: string
+          description: Correo electrónico del usuario
+        telefono:
+          type: integer
+          description: Teléfono del usuario
+        direccion:
+          type: string
+          description: Dirección del usuario
+        fecha_pedido:
+          type: string
+          format: date
+          description: Fecha del pedido
+        
