@@ -43,7 +43,7 @@ const updateById = async(req, res) => {
         const queryResult = await sequelize.query(`UPDATE tbl_producto SET nombre_producto = "${nombre_producto}", descripcion_producto = "${descripcion_producto}", costo_producto = "${costo_producto}" WHERE id_producto = ${req.params.id}`, {type: sequelize.QueryTypes.UPDATE})
 
         console.log(queryResult);
-        res.status(203).json({message: 'El producto se actulizó correctamente'});
+        res.status(200).json({message: 'El producto se actualizó correctamente'});
         
     } catch (error) {
         console.log(`Error al actualizar el producto: ${error}`);

@@ -135,9 +135,6 @@ left join tbl_estado est using(id_estado) left join tbl_tipo_pago tpago using(id
 order by ped.id_pedido
 
 
-
-
-
 select * from tbl_pedido tp 
 
 delete from tbl_pedido where id_pedido = 1
@@ -147,7 +144,6 @@ select * from tbl_estado te
 update tbl_pedido set id_estado = 1 where id_pedido = 1
 
 
-descripcion_pedido,id_estado,id_usuario,id_tipo_pago
 
 
 

@@ -8,7 +8,7 @@ const EXPIRES = "1h"; //dotenv
 
 const getAll = async(req, res) =>{
     try {
-        const queryResult = await sequelize.query(`SELECT nombre_usuario, nombre, apellido, email, telefono, direccion FROM tbl_usuario`, {
+        const queryResult = await sequelize.query(`SELECT * FROM tbl_usuario`, {
             type: sequelize.QueryTypes.SELECT
         });
         console.log(queryResult);
@@ -44,7 +44,7 @@ const register = async(req, res) =>{
         const queryResult = await sequelize.query('INSERT INTO tbl_usuario (nombre_usuario, contrasenia, nombre, apellido, email, telefono, direccion) VALUES(?,?,?,?,?,?,?)',
         {replacements: arrayRegister, type: sequelize.QueryTypes.INSERT});
         console.log(queryResult);
-        res.status(201).json({msg: "Registro exitoso!"});
+        res.status(200).json({msg: "Registro exitoso!"});
     } catch (error) {
         console.log(error);
         res.status(400).json({msg:"Ha ocurrido un error"})
@@ -68,7 +68,7 @@ const login = async(req, res) => {
                 SECRET,
                 {expiresIn: EXPIRES}
             );
-            return res.status(201).json({msg: "Bienvenido! " + queryResult.nombre, token});         
+            return res.status(200).json({msg: "Bienvenido! " + queryResult.nombre, token});         
         }
         return res.status(404).json({msg:"Validar usuario y contraseña"});
     } catch (error) {
